@@ -11,6 +11,7 @@ import os
 
 
 folder="FS" #PATH TO JSON FOLDER
+lastDate=None
 
 class DailyData:
     def __init__(self, id,name, year, month, day, saint,liturgicalTime,imgID,psalmID,tags,kohustuslik):
@@ -34,6 +35,9 @@ class DailyData:
 
 
 
+
+
+
 def run():
     d=getInputs()
     year=d["date"][2]
@@ -52,7 +56,24 @@ def run():
         with open(path,"w") as f:
             initial={'days':[d]}
             json.dump(initial,f)
+    global lastDate
+    lastDate=d["date"]
+    votaTagasi["state"]=ACTIVE
+
     
+
+def undo():
+    if(not(lastDate==None)):
+        path=folder+"\\"+lastDate[2]+"\\"+lastDate[1]+".json"
+        with open(path) as f:
+            d=json.loads(f.read())
+        d["days"].pop()
+        
+        with open(path,"w") as f:
+            json.dump(d,f)
+        votaTagasi["state"]=DISABLED
+        
+
 
 def resetGUI():
     nimi.delete(0,"end")
@@ -191,6 +212,12 @@ group5.grid(row=1,column=3)
 
 vasak.pack(side=LEFT)
 parem.pack(side=RIGHT)
+
+
+
+votaTagasi = Button(vasak,text="Võta tagasi", command=undo)
+votaTagasi.grid(row=7,column=1,pady=25,padx=10)
+votaTagasi["state"]=DISABLED
 
 kinnita = Button(vasak,text="Sisesta", command=run)
 kinnita.grid(row=7,column=2,pady=25)
