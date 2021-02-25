@@ -54,6 +54,19 @@ def run():
             json.dump(initial,f)
     
 
+def resetGUI():
+    nimi.delete(0,"end")
+    pyhak.delete(0,"end")
+    imgID.delete(0,"end")
+    psalmID.delete(0,"end")
+    paev.delete(0,"end")
+    kuu.delete(0,"end")
+    sisu.delete("1.0",END)
+    v1.set(options1[0])
+    v2.set(options2[0])
+    v3.set(options3[0])
+
+
 def getInputs():
 
     name=nimi.get()
@@ -67,13 +80,15 @@ def getInputs():
     text=sisu.get("1.0",END)
     mandatory= True if v3.get()=='jah' else False
 
+    resetGUI()
+
     if(not(None in(name,saint,psalm,liturgicalTime,day,month,year,text))):
 
         ID=day+month+year
         d = {
                 'id':ID,
                 'date':(day,month,year),
-                'tags':saint,
+                'tags':[],
                 'liturgicalTime':liturgicalTime,
                 'content':{'name':name,'saint':saint,'imageID':image,'psalmID':psalm,'text':text},
                 'mandatory':mandatory
@@ -177,8 +192,8 @@ group5.grid(row=1,column=3)
 vasak.pack(side=LEFT)
 parem.pack(side=RIGHT)
 
-kinnita = Button(raam,text="Sisesta", command=run)
-kinnita.pack(side=BOTTOM)
+kinnita = Button(vasak,text="Sisesta", command=run)
+kinnita.grid(row=7,column=2,pady=25)
 
 raam.mainloop()
 print("VÄLJUN..")
