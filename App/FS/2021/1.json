@@ -1,0 +1,22 @@
+{
+    "days": [
+        {
+            "id": "112021",
+            "date": [
+                "1",
+                "1",
+                "2021"
+            ],
+            "tags": [],
+            "liturgicalTime": "j\u00f5uluaeg",
+            "content": {
+                "name": "Testimise p\u00e4ev",
+                "saint": "P\u00fcha Loorem",
+                "imageID": "1",
+                "psalmID": "2",
+                "text": "Mingi tekst millel pole v\u00e4ga t\u00e4hendust, aga mis parata.\n"
+            },
+            "mandatory": true
+        }
+    ]
+}

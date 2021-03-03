@@ -4,7 +4,7 @@
         <FlexboxLayout id="date-box" backgroundColor="#ffffff" >
           
           <TextView class="date"  :text="currentDate" editable="false"/>
-          <Label class="header" text="Tähtpäeva nimi"/>
+          <Label class="header" :text="name"/>
         </FlexboxLayout>
       </FlexboxLayout>
 </template>
@@ -15,12 +15,18 @@
 
 import  {Vue,Prop, Component } from 'vue-property-decorator'
 import Intl from 'intl'
+import { dailyContent } from 'store/types';
+import { Content } from 'store/types';
+
 
 @Component
 export default class HomeTab extends Vue{
 
     //Proprerties
     @Prop() private msg: string;
+    @Prop() private daily: dailyContent<Content>;
+    
+
     
     //Computed
     get currentDate(){
@@ -31,6 +37,16 @@ export default class HomeTab extends Vue{
       };
     return new String(new Intl.DateTimeFormat('et-EE',options).format(date)).toUpperCase();
     }
+
+    get name(){
+      if(this.daily==null){
+        return "SUVAKAS"
+      }else{
+        return this.daily.content.name;
+      }
+      
+    }
+    
     
 }
 </script>

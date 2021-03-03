@@ -3,6 +3,7 @@
     "target": "es2017",
     "module": "esnext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "lib": [
       "dom",
       "es2017"
@@ -31,7 +32,7 @@
   "include": [
     "src",
     "types"
-  ],
+, "store/store.ts"  ],
   "exclude": [
     "node_modules",
     "platforms"

@@ -28,7 +28,7 @@
 
       <TabContentItem>
         <GridLayout columns="*" rows="*">
-          <HomeTab msg="Kodu" />
+          <HomeTab msg="kodu" :daily="findDaily" />
         </GridLayout>
       </TabContentItem>
 
@@ -53,11 +53,25 @@
 
 <script lang="ts">
 //Root component for the whole App
+
+
+//Class components
 import { Component, Prop, Vue } from "vue-property-decorator";
+
+
 import HomeTab from "./HomeTab.vue";
 import CalendarTab from "./CalendarTab.vue";
 import BookTab from "./BookTab.vue";
 import SettingsTab from "./SettingsTab.vue";
+
+//Store components
+
+import {dailyContent} from '../../store/types'
+import {Content} from '../../store/types'
+import store from '../store'
+import data from '../../FS/2021/1.json'
+import { knownFolders, Folder, File } from "@nativescript/core/file-system";
+
 @Component({
   components: {
     HomeTab,
@@ -68,11 +82,13 @@ import SettingsTab from "./SettingsTab.vue";
 })
 export default class App extends Vue {
 //Properties
-  @Prop() private msg: string;
+  
 //Data
   data(){
       return{
           selected:""
+        
+          
       }
   }
 //Methods
@@ -81,6 +97,44 @@ isSelected(index){
         return true;
     }
 }
+
+get findDaily(){
+  const identifier = this.$store.state.date;
+  const year = "2021";
+  const month = "1";
+  const path = '../../FS/2021/1.json'
+  
+  const data = this.getJsonFile(path);
+  for (let index = 0; index < data.days.length; index++) {
+     const element:dailyContent<Content> = data.days[index];
+    if(element.id==identifier){
+      return element;
+    }
+    
+  }
+
+return null;
+}
+
+getJsonFile (path) {
+  let appFolder = knownFolders.currentApp();
+  let cfgFile = appFolder.getFile(path);
+  cfgFile.readText()
+    .then((res) => {
+
+    let data=JSON.parse(res);
+        
+    
+    }).catch((err) => {
+        console.log(err.stack);
+    });
+    return data;
+}
+
+
+
+
+
 }
 </script>
 
