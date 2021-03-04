@@ -28,7 +28,7 @@
 
       <TabContentItem>
         <GridLayout columns="*" rows="*">
-          <HomeTab msg="kodu" :daily="findDaily" />
+          <HomeTab :daily="daily"  />
         </GridLayout>
       </TabContentItem>
 
@@ -69,8 +69,6 @@ import SettingsTab from "./SettingsTab.vue";
 import {dailyContent} from '../../store/types'
 import {Content} from '../../store/types'
 import store from '../store'
-import data from '../../FS/2021/1.json'
-import { knownFolders, Folder, File } from "@nativescript/core/file-system";
 
 @Component({
   components: {
@@ -88,6 +86,7 @@ export default class App extends Vue {
       return{
           selected:""
         
+        
           
       }
   }
@@ -98,44 +97,15 @@ isSelected(index){
     }
 }
 
-get findDaily(){
-  const identifier = this.$store.state.date;
-  const year = "2021";
-  const month = "1";
-  const path = '../../FS/2021/1.json'
-  
-  const data = this.getJsonFile(path);
-  for (let index = 0; index < data.days.length; index++) {
-     const element:dailyContent<Content> = data.days[index];
-    if(element.id==identifier){
-      return element;
-    }
-    
-  }
 
-return null;
-}
 
-getJsonFile (path) {
-  let appFolder = knownFolders.currentApp();
-  let cfgFile = appFolder.getFile(path);
-  cfgFile.readText()
-    .then((res) => {
-
-    let data=JSON.parse(res);
-        
-    
-    }).catch((err) => {
-        console.log(err.stack);
-    });
-    return data;
-}
 
 
 
 
 
 }
+
 </script>
 
 <style scoped>

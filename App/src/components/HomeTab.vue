@@ -17,35 +17,49 @@ import  {Vue,Prop, Component } from 'vue-property-decorator'
 import Intl from 'intl'
 import { dailyContent } from 'store/types';
 import { Content } from 'store/types';
+import axios from 'axios'
 
+import { knownFolders, Folder, File } from "@nativescript/core/file-system";
 
 @Component
 export default class HomeTab extends Vue{
 
-    //Proprerties
-    @Prop() private msg: string;
-    @Prop() private daily: dailyContent<Content>;
     
-
-    
+    //@Prop() private daily: dailyContent<Content>;
+   
+    private name:string = "tere";
     //Computed
     get currentDate(){
       let date = new Date();
       let options = {
-        day:'2-digit',
-        month:'short'
+        day:'numeric',
+        month:'numeric',
+        year:'numeric'
       };
     return new String(new Intl.DateTimeFormat('et-EE',options).format(date)).toUpperCase();
     }
 
-    get name(){
-      if(this.daily==null){
-        return "SUVAKAS"
-      }else{
-        return this.daily.content.name;
-      }
-      
-    }
+    
+created(){
+
+this.name="eiii"
+const [day,month,year] = ["1","1","2021"]    //! use this later: this.currentDate.split(".") 
+const ID = this.$store.state.date;
+
+
+let file = knownFolders.currentApp().getFolder("assets").getFolder("FS").getFolder("2021").getFile("1.json");
+
+
+/**  const response = await fetch(path);
+const json = await response.json() */
+
+
+let body = JSON.parse(file.readTextSync())
+
+this.name=body.days[0].content.name
+  
+
+}
     
     
 }

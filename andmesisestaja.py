@@ -10,7 +10,7 @@ import os
 
 
 
-folder="FS" #PATH TO JSON FOLDER
+folder="App\\FS" #sPATH TO JSON FOLDER
 lastDate=None
 
 class DailyData:
